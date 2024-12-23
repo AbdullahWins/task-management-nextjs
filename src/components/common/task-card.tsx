@@ -5,6 +5,7 @@ import {
   useDeleteTaskMutation,
   useUpdateTaskMutation,
 } from "@/services/store/modules/api";
+import { useRouter } from "next/navigation";
 
 interface Task {
   _id: string;
@@ -25,6 +26,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = ({ task }: TaskCardProps) => {
+  const router = useRouter();
   const [updateTask] = useUpdateTaskMutation();
   const [updateTaskStatus] = useUpdateTaskStatusMutation();
   const [deleteTask] = useDeleteTaskMutation();
@@ -125,7 +127,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
         </div>
       </div>
 
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between mt-8 gap-2">
         {/* Status Update Button */}
         <button
           onClick={handleStatusUpdate}
@@ -142,6 +144,14 @@ const TaskCard = ({ task }: TaskCardProps) => {
             : task.status === "completed"
             ? "Move to Overdue"
             : "Move to Pending"}
+        </button>
+
+        {/* View button */}
+        <button
+          onClick={() => router.push(`/task/${task._id}`)}
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-500 focus:ring-2 focus:ring-blue-300"
+        >
+          View
         </button>
 
         {/* Update Task Button */}

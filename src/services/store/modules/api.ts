@@ -60,6 +60,12 @@ export const api = createApi({
       }),
       providesTags: ["Tasks"],
     }),
+    getTask: builder.query({
+      query: (taskId) => ({
+        url: `/tasks/find/${taskId}`,
+        method: "GET",
+      }),
+    }),
     addTask: builder.mutation({
       query: (taskData) => ({
         url: "/tasks/add",
@@ -90,6 +96,21 @@ export const api = createApi({
         method: "DELETE",
       }),
     }),
+
+    //ai
+    // AI Summary & Plan APIs
+    fetchAISummary: builder.mutation({
+      query: ({ taskId }) => ({
+        url: `/ai/summary/${taskId}`,
+        method: "GET",
+      }),
+    }),
+    fetchAIPlan: builder.mutation({
+      query: ({ taskId }) => ({
+        url: `/ai/plan/${taskId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -98,8 +119,11 @@ export const {
   useSigninMutation,
   useGetUserQuery,
   useGetTasksQuery,
+  useGetTaskQuery,
   useAddTaskMutation,
   useUpdateTaskMutation,
   useUpdateTaskStatusMutation,
   useDeleteTaskMutation,
+  useFetchAISummaryMutation,
+  useFetchAIPlanMutation,
 } = api;
