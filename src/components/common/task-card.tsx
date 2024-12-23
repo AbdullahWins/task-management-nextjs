@@ -73,15 +73,12 @@ const TaskCard = ({ task }: TaskCardProps) => {
   };
 
   return (
-    <div className="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out">
-      <h3 className="text-2xl font-semibold text-gray-800 mb-4">{title}</h3>
+    <div className="w-full max-w-md p-6 bg-green-100 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105">
+      <h3 className="text-2xl font-semibold text-gray-900 mb-4">{title}</h3>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div>
-          <label
-            htmlFor="title"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="title" className="text-sm font-medium text-gray-700">
             Title
           </label>
           <input
@@ -89,7 +86,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition duration-200"
             placeholder="Enter task title"
           />
         </div>
@@ -97,7 +94,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
         <div>
           <label
             htmlFor="description"
-            className="block text-sm font-medium text-gray-700"
+            className="text-sm font-medium text-gray-700"
           >
             Description
           </label>
@@ -105,7 +102,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition duration-200"
             placeholder="Enter task description"
             rows={4}
           />
@@ -114,7 +111,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
         <div>
           <label
             htmlFor="dueDate"
-            className="block text-sm font-medium text-gray-700"
+            className="text-sm font-medium text-gray-700"
           >
             Due Date
           </label>
@@ -123,16 +120,16 @@ const TaskCard = ({ task }: TaskCardProps) => {
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(new Date(e.target.value).getTime())}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 transition duration-200"
           />
         </div>
       </div>
 
-      <div className="flex justify-between mt-6">
+      <div className="flex justify-between mt-8">
         {/* Status Update Button */}
         <button
           onClick={handleStatusUpdate}
-          className={`px-4 py-2 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-300 transition ${
+          className={`px-5 py-2 rounded-lg text-sm font-medium transition duration-200 ${
             task.status === "pending"
               ? "bg-indigo-600 text-white hover:bg-indigo-500"
               : task.status === "completed"
@@ -150,17 +147,17 @@ const TaskCard = ({ task }: TaskCardProps) => {
         {/* Update Task Button */}
         <button
           onClick={handleUpdate}
-          className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-500 focus:ring-2 focus:ring-green-300"
+          className="px-5 py-2 bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-500 focus:ring-2 focus:ring-green-300"
         >
-          Update Task
+          Update
         </button>
 
         {/* Delete Task Button */}
         <button
           onClick={handleDelete}
-          className="px-4 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-500 focus:ring-2 focus:ring-red-300"
+          className="px-5 py-2 bg-red-600 text-white rounded-lg shadow-sm hover:bg-red-500 focus:ring-2 focus:ring-red-300"
         >
-          Delete Task
+          Delete
         </button>
       </div>
     </div>
