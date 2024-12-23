@@ -48,13 +48,6 @@ export const NavBar = () => {
               Home
             </button>
 
-            {/* User Profile Image */}
-            <img
-              src={user?.image || "/default-avatar.png"}
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full border-2 border-white object-cover"
-            />
-
             {/* Signout Button */}
             <button
               onClick={handleSignout}
