@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authSlice } from "./authSlice";
 
+
+type TaskTags = { type: "Tasks"; id: "LIST" };
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -13,6 +16,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Tasks"],
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (userId) => ({
@@ -54,6 +58,7 @@ export const api = createApi({
         url: "/tasks/own",
         method: "GET",
       }),
+      providesTags: ["Tasks"],
     }),
     addTask: builder.mutation({
       query: (taskData) => ({
@@ -61,6 +66,7 @@ export const api = createApi({
         method: "POST",
         body: taskData,
       }),
+      invalidatesTags: ["Tasks"],
     }),
     updateTask: builder.mutation({
       query: (taskData) => ({
@@ -68,6 +74,7 @@ export const api = createApi({
         method: "PATCH",
         body: taskData,
       }),
+      invalidatesTags: ["Tasks"],
     }),
     updateTaskStatus: builder.mutation({
       query: ({ _id, status }) => ({
@@ -75,6 +82,7 @@ export const api = createApi({
         method: "PATCH",
         body: { status },
       }),
+      invalidatesTags: ["Tasks"],
     }),
     deleteTask: builder.mutation({
       query: (_id) => ({

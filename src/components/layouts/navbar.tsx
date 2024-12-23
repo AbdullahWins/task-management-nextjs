@@ -10,7 +10,6 @@ export const NavBar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state: any) => state.auth);
-  console.log("user", user);
 
   const handleSigninClick = () => {
     router.push("/auth/signin");
