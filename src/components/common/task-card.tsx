@@ -18,7 +18,7 @@ interface Task {
 
 interface TaskCardProps {
   task: Task;
-  
+
   onUpdate: (id: string, updates: Partial<any>) => void;
 
   onDelete: (id: string) => void;
@@ -121,7 +121,7 @@ const TaskCard = ({ task }: TaskCardProps) => {
           <input
             id="dueDate"
             type="date"
-            value={new Date(dueDate).toISOString().split("T")[0]}
+            value={dueDate}
             onChange={(e) => setDueDate(new Date(e.target.value).getTime())}
             className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
           />

@@ -70,6 +70,16 @@ export default function Tasks() {
 
   return (
     <div className="space-y-8">
+      {/* Add New Task */}
+      <div>
+        <h2 className="text-2xl font-semibold">Add New Task</h2>
+        <button
+          onClick={() => router.push("/add-task")}
+          className="px-4 py-2 bg-blue-500 text-white rounded-md"
+        >
+          Add Task
+        </button>
+      </div>
       {/* Pending Tasks */}
       <div>
         <h2 className="text-2xl font-semibold">Pending Tasks</h2>
