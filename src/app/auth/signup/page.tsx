@@ -2,19 +2,25 @@
 
 import React, { useState } from "react";
 import { useSignupMutation } from "@/services/store/modules/api";
+import { useRouter } from "next/navigation";
 
 const Signup = () => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [signup, { isLoading, error }] = useSignupMutation();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signup({ email, password }).unwrap();
+      await signup({ email, password, fullName, username }).unwrap();
       alert("Signup successful!");
+      //redirect to login page
+      router.push("/auth/signin");
     } catch (err) {
-      console.error("Signup failed:", err);
+      console.error("Signup failed:", (err as any)?.message);
     }
   };
 
@@ -25,6 +31,43 @@ const Signup = () => {
           Signup
         </h1>
         <form onSubmit={handleSignup} className="space-y-4">
+          {/* full name  */}
+          <div>
+            <label
+              htmlFor="fullName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Full Name
+            </label>
+            <input
+              id="fullName"
+              type="text"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter your full name"
+              required
+            />
+          </div>
+          {/* username */}
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Username
+            </label>
+            <input
+              id="username"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Enter your username"
+              required
+            />
+          </div>
+          {/* email */}
           <div>
             <label
               htmlFor="email"
@@ -42,6 +85,7 @@ const Signup = () => {
               required
             />
           </div>
+          {/* password */}
           <div>
             <label
               htmlFor="password"
@@ -81,7 +125,7 @@ const Signup = () => {
             Already have an account?
           </span>
           <a
-            href="/signin"
+            href="/auth/signin"
             className="text-sm text-indigo-600 hover:text-indigo-500"
           >
             Signin

@@ -1,9 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { authSlice } from "./authSlice";
 
-
-type TaskTags = { type: "Tasks"; id: "LIST" };
-
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -95,10 +92,10 @@ export const api = createApi({
         url: `/tasks/delete/${_id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Tasks"],
     }),
 
     //ai
-    // AI Summary & Plan APIs
     fetchAISummary: builder.mutation({
       query: ({ taskId }) => ({
         url: `/ai/summary/${taskId}`,

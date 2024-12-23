@@ -28,12 +28,14 @@ export const NavBar = () => {
     <div className="bg-primary-dark h-[80px] flex items-center justify-between px-4 shadow-md">
       {/* Add Task */}
       <div className="flex items-center space-x-4">
-        <button
-          onClick={() => router.push("/add-task")}
-          className="px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition duration-200"
-        >
-          Add Task
-        </button>
+        {isAuthenticated ? (
+          <button
+            onClick={() => router.push("/add-task")}
+            className="px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition duration-200"
+          >
+            Add Task
+          </button>
+        ) : null}
       </div>
 
       {/* Navigation / Actions */}
