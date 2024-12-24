@@ -40,7 +40,6 @@ export const authSlice = createSlice({
         state.accessToken = accessToken;
         const userId = localStorage.getItem("userId");
         if (userId) {
-          console.log("UserId found:", userId);
         }
       }
     },

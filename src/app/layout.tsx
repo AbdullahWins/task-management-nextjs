@@ -7,8 +7,8 @@ import { NavBar } from "@/components/layouts/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Todo App",
-  description: "A simple todo application",
+  title: "Task Management App",
+  description: "A simple task management app.",
 };
 
 export default function RootLayout({

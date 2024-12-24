@@ -2,7 +2,6 @@
 
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Logo } from "@/components/logo";
 import { signout } from "@/services/store/modules/authSlice";
 import { useDispatch } from "react-redux";
 
@@ -10,7 +9,6 @@ export const NavBar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state: any) => state.auth);
-  console.log("user", user);
 
   const handleSigninClick = () => {
     router.push("/auth/signin");
@@ -18,10 +16,6 @@ export const NavBar = () => {
 
   const handleHomeClick = () => {
     router.push("/");
-  };
-
-  const handleProfileClick = () => {
-    router.push("/auth/profile");
   };
 
   const handleSignout = () => {
@@ -32,10 +26,16 @@ export const NavBar = () => {
 
   return (
     <div className="bg-primary-dark h-[80px] flex items-center justify-between px-4 shadow-md">
-      {/* Logo Section */}
+      {/* Add Task */}
       <div className="flex items-center space-x-4">
-        <Logo />
-        <span className="text-white text-lg font-semibold">Todo App</span>
+        {isAuthenticated ? (
+          <button
+            onClick={() => router.push("/add-task")}
+            className="px-6 py-2 bg-indigo-600 text-white rounded-md shadow-md hover:bg-indigo-700 transition duration-200"
+          >
+            Add Task
+          </button>
+        ) : null}
       </div>
 
       {/* Navigation / Actions */}
@@ -48,15 +48,6 @@ export const NavBar = () => {
               className="text-white hover:underline"
             >
               Home
-            </button>
-
-            {/* User Profile Image */}
-            <button onClick={handleProfileClick}>
-              <img
-                src={user?.image || "/default-avatar.png"}
-                alt="User Avatar"
-                className="w-10 h-10 rounded-full border-2 border-white object-cover"
-              />
             </button>
 
             {/* Signout Button */}

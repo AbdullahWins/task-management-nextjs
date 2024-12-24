@@ -1,26 +1,47 @@
 "use client";
 
 import React, { useState } from "react";
-import { useSignupMutation } from "@/services/store/modules/api";
+import { useDispatch } from "react-redux";
+import { useAddTaskMutation } from "@/services/store/modules/api"; // Assuming you have an API mutation for adding tasks
 import { useRouter } from "next/navigation";
 
-const Signup = () => {
+const AddTaskForm = () => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [status, setStatus] = useState("pending"); // Default status
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [username, setUsername] = useState("");
-  const [signup, { isLoading, error }] = useSignupMutation();
+  const [addTask, { isLoading, error }] = useAddTaskMutation();
 
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      await signup({ email, password, fullName, username }).unwrap();
-      alert("Signup successful!");
-      //redirect to login page
-      router.push("/auth/signin");
+      // Prepare task data
+      const newTask = {
+        title,
+        description,
+        dueDate,
+        status,
+      };
+
+      // Call API to add the task
+      const { data } = await addTask(newTask).unwrap();
+
+      // Optionally, dispatch any action if needed
+      // dispatch(addTaskSuccess(data)); // Example
+
+      // Reset the form
+      setTitle("");
+      setDescription("");
+      setDueDate("");
+      setStatus("pending");
+
+      // Redirect or notify user about success (optional)
+      router.push("/"); // Redirect to the tasks page after adding task
     } catch (err) {
-      console.error("Signup failed:", (err as any)?.message);
+      console.error("Error adding task:", err);
     }
   };
 
@@ -28,80 +49,75 @@ const Signup = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
-          Signup
+          Add New Task
         </h1>
-        <form onSubmit={handleSignup} className="space-y-4">
-          {/* full name  */}
+        <form onSubmit={handleAddTask} className="space-y-4">
           <div>
             <label
-              htmlFor="fullName"
+              htmlFor="title"
               className="block text-sm font-medium text-gray-700"
             >
-              Full Name
+              Task Title
             </label>
             <input
-              id="fullName"
+              id="title"
               type="text"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your full name"
+              placeholder="Enter task title"
               required
             />
           </div>
-          {/* username */}
           <div>
             <label
-              htmlFor="username"
+              htmlFor="description"
               className="block text-sm font-medium text-gray-700"
             >
-              Username
+              Description
             </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your username"
+              placeholder="Enter task description"
               required
             />
           </div>
-          {/* email */}
           <div>
             <label
-              htmlFor="email"
+              htmlFor="dueDate"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              Due Date
             </label>
             <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="dueDate"
+              type="date"
+              value={dueDate}
+              onChange={(e) => setDueDate(e.target.value)}
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your email"
               required
             />
           </div>
-          {/* password */}
           <div>
             <label
-              htmlFor="password"
+              htmlFor="status"
               className="block text-sm font-medium text-gray-700"
             >
-              Password
+              Status
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+            <select
+              id="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
               className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              placeholder="Enter your password"
-              required
-            />
+            >
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+              <option value="overdue">Overdue</option>
+            </select>
           </div>
           <button
             type="submit"
@@ -112,7 +128,7 @@ const Signup = () => {
                 : "hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-300"
             }`}
           >
-            {isLoading ? "Signing up..." : "Signup"}
+            {isLoading ? "Adding task..." : "Add Task"}
           </button>
         </form>
         {error && (
@@ -120,20 +136,9 @@ const Signup = () => {
             {JSON.stringify("data" in error ? error.data : "An error occurred")}
           </p>
         )}
-        <div className="mt-4 text-center">
-          <span className="text-sm text-gray-600">
-            Already have an account?
-          </span>
-          <a
-            href="/auth/signin"
-            className="text-sm text-indigo-600 hover:text-indigo-500"
-          >
-            Signin
-          </a>
-        </div>
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default AddTaskForm;
