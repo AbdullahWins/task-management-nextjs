@@ -13,6 +13,7 @@ export const api = createApi({
       return headers;
     },
   }),
+  tagTypes: ["Tasks"],
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (userId) => ({
@@ -54,6 +55,13 @@ export const api = createApi({
         url: "/tasks/own",
         method: "GET",
       }),
+      providesTags: ["Tasks"],
+    }),
+    getTask: builder.query({
+      query: (taskId) => ({
+        url: `/tasks/find/${taskId}`,
+        method: "GET",
+      }),
     }),
     addTask: builder.mutation({
       query: (taskData) => ({
@@ -61,6 +69,7 @@ export const api = createApi({
         method: "POST",
         body: taskData,
       }),
+      invalidatesTags: ["Tasks"],
     }),
     updateTask: builder.mutation({
       query: (taskData) => ({
@@ -68,6 +77,7 @@ export const api = createApi({
         method: "PATCH",
         body: taskData,
       }),
+      invalidatesTags: ["Tasks"],
     }),
     updateTaskStatus: builder.mutation({
       query: ({ _id, status }) => ({
@@ -75,11 +85,27 @@ export const api = createApi({
         method: "PATCH",
         body: { status },
       }),
+      invalidatesTags: ["Tasks"],
     }),
     deleteTask: builder.mutation({
       query: (_id) => ({
         url: `/tasks/delete/${_id}`,
         method: "DELETE",
+      }),
+      invalidatesTags: ["Tasks"],
+    }),
+
+    //ai
+    fetchAISummary: builder.mutation({
+      query: ({ taskId }) => ({
+        url: `/ai/summary/${taskId}`,
+        method: "GET",
+      }),
+    }),
+    fetchAIPlan: builder.mutation({
+      query: ({ taskId }) => ({
+        url: `/ai/plan/${taskId}`,
+        method: "GET",
       }),
     }),
   }),
@@ -90,8 +116,11 @@ export const {
   useSigninMutation,
   useGetUserQuery,
   useGetTasksQuery,
+  useGetTaskQuery,
   useAddTaskMutation,
   useUpdateTaskMutation,
   useUpdateTaskStatusMutation,
   useDeleteTaskMutation,
+  useFetchAISummaryMutation,
+  useFetchAIPlanMutation,
 } = api;

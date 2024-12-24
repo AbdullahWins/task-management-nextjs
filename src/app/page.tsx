@@ -56,12 +56,12 @@ export default function Tasks() {
   );
 
   if (isLoading) {
-    return <p>Loading tasks...</p>;
+    return <p className="text-center text-gray-500">Loading tasks...</p>;
   }
 
   if (error) {
     return (
-      <p>
+      <p className="text-center text-red-500">
         Error loading tasks:{" "}
         {error instanceof Error ? error.message : "An unknown error occurred"}
       </p>
@@ -69,11 +69,14 @@ export default function Tasks() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12 px-6 py-8">
+
       {/* Pending Tasks */}
       <div>
-        <h2 className="text-2xl font-semibold">Pending Tasks</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h3 className="text-3xl font-bold text-center text-gray-800 bg-gray-100 py-4 mb-4">
+          Pending Tasks
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pendingTasks?.map((task: Task) => (
             <TaskCard
               key={task._id}
@@ -87,8 +90,10 @@ export default function Tasks() {
 
       {/* Completed Tasks */}
       <div>
-        <h2 className="text-2xl font-semibold">Completed Tasks</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h3 className="text-3xl font-bold text-center text-gray-800 bg-gray-100 py-4 mb-4">
+          Completed Tasks
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {completedTasks?.map((task) => (
             <TaskCard
               key={task._id}
@@ -102,8 +107,10 @@ export default function Tasks() {
 
       {/* Overdue Tasks */}
       <div>
-        <h2 className="text-2xl font-semibold">Overdue Tasks</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <h3 className="text-3xl font-bold text-center text-gray-800 bg-gray-100 py-4 mb-4">
+          Overdue Tasks
+        </h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {overdueTasks?.map((task) => (
             <TaskCard
               key={task._id}
